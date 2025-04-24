@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<robot name="visual">
+
+  <!-- Определения материалов -->
+  <material name="blue">  <color rgba="0 0 1 1"/></material>
+  <material name="black"> <color rgba="0 0 0 1"/></material>
+  <material name="white"> <color rgba="1 1 1 1"/></material>
+  <material name="green"> <color rgba="0 0.7 0 1"/></material>
+  <material name="silver"><color rgba="0.8 0.8 0.8 1.0"/></material>
+ 
+  <!-- Корневое звено -->
+  <link name="odom"/>
+
+  <!-- ========== Первый уровень: основная платформа ========== -->
+  <link name="base_link">
+    <visual>
+      <geometry><box size="0.2 0.23 0.044"/></geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.2 0.23 0.044"/></geometry>
+    </collision>
+  </link>
+  <joint name="base_link_joint" type="fixed">
+    <parent link="odom"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+     
+  <!-- Колёсная база (левая сторона) -->
+  <link name="front_left_base">
+      <visual>
+          <geometry><box size="0.01 0.01 0.01"/></geometry>
+      </visual>
+  </link>
+  <joint name="front_left_base_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="front_left_base"/>
+      <origin xyz="0.05 0.13 0" rpy="0 0 0"/>
+  </joint>
+  <link name="front_left_wheel">
+      <visual>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+          <material name="blue"/>
+      </visual>
+      <collision>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+      </collision>
+      <inertial>
+          <mass value="1"/>
+          <inertia ixx="1e-3" ixy="0" ixz="0" iyy="1e-3" iyz="0" izz="1e-3"/>
+      </inertial>
+  </link>
+  <joint name="front_left_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <parent link="front_left_base"/>
+      <child link="front_left_wheel"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <!-- Колёсная база (правая сторона) -->
+  <link name="front_right_base">
+    <visual>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="front_right_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_right_base"/>
+    <origin xyz="0.05 -0.13 0" rpy="0 0 0"/>
+  </joint>
+  <link name="front_right_wheel">
+    <visual>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.0325"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.0325"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="1e-3" ixy="0" ixz="0"
+               iyy="1e-3" iyz="0" izz="1e-3"/>
+    </inertial>
+  </link>
+  <joint name="front_right_wheel_joint" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="front_right_base"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+</joint>
+
+
+
+
+  <!-- Колёсная база (левая сторона) -->
+  <link name="rear_left_base">
+      <visual>
+          <geometry><box size="0.01 0.01 0.01"/></geometry>
+      </visual>
+  </link>
+  <joint name="rear_left_base_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="rear_left_base"/>
+      <origin xyz="-0.05 0.13 0" rpy="0 0 0"/>
+  </joint>
+  <link name="rear_left_wheel">
+      <visual>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+          <material name="blue"/>
+      </visual>
+      <collision>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+      </collision>
+      <inertial>
+          <mass value="1"/>
+          <inertia ixx="1e-3" ixy="0" ixz="0" iyy="1e-3" iyz="0" izz="1e-3"/>
+      </inertial>
+  </link>
+  <joint name="rear_left_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <parent link="rear_left_base"/>
+      <child link="rear_left_wheel"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+
+  <!-- Колёсная база (левая сторона) -->
+  <link name="rear_right_base">
+      <visual>
+          <geometry><box size="0.01 0.01 0.01"/></geometry>
+      </visual>
+  </link>
+  <joint name="rear_right_base_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="rear_right_base"/>
+      <origin xyz="-0.05 -0.13 0" rpy="0 0 0"/>
+  </joint>
+  <link name="rear_right_wheel">
+      <visual>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+          <material name="blue"/>
+      </visual>
+      <collision>
+          <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+          <geometry><cylinder length="0.025" radius="0.0325"/></geometry>
+      </collision>
+      <inertial>
+          <mass value="1"/>
+          <inertia ixx="1e-3" ixy="0" ixz="0" iyy="1e-3" iyz="0" izz="1e-3"/>
+      </inertial>
+  </link>
+  <joint name="rear_right_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <parent link="rear_right_base"/>
+      <child link="rear_right_wheel"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+
+  <!-- ========== ros2_control (управление колесами) ========== -->
+  <ros2_control name="my_robot_hardware" type="system">
+    <hardware>
+      <plugin>mock_components/GenericSystem</plugin>
+      <param name="update_rate" type="int">50</param>
+      <param name="calculate_dynamics" type="bool">true</param>
+    </hardware>
+  </ros2_control>
+
+</robot>
