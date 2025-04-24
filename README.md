@@ -11,6 +11,6 @@ ros2 launch robot_tppo robot.launch.py
 Описание робота находится в urdf/robot.urdf.xacro
 
 # TODO
-- [HIGH] Связать с Gazebo
+- Связать с Gazebo
   - Посмотреть в launch/robot.launch.py
-- [LOW] Добавить датчики
+- Добавить датчики
