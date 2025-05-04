@@ -24,7 +24,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[robot_description_param]  # <-- передаём dict
+        parameters=[robot_description_param,{'use_sim_time': True}]  # <-- передаём dict
     )
 
     # --- Узел ROS2 Control (controller_manager) ---
@@ -34,7 +34,8 @@ def generate_launch_description():
         output='screen',
         parameters=[
             robot_description_param,  # словарь (robot_description)
-            controller_params_file    # путь к YAML
+            controller_params_file,
+            {'use_sim_time': True}# путь к YAML
         ]
     )
 
@@ -44,6 +45,7 @@ def generate_launch_description():
         executable='spawner',
         arguments=['joint_state_broadcaster'],
         output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     diff_drive_spawner = Node(
@@ -51,6 +53,7 @@ def generate_launch_description():
         executable='spawner',
         arguments=['diff_drive_controller',  '--param-file', controller_params_file],
         output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     # (Опционально) узел joint_state_publisher_gui
@@ -68,7 +71,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', rviz_config_file],
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time':True}]
     )
 
     # Собираем всё в LaunchDescription
