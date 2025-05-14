@@ -23,4 +23,24 @@ ros2 run ros_gz_bridge parameter_bridge
 ## Описание робота 
 Описание робота находится в urdf/robot.urdf.xacro
 ## Скрипты
-/scripts - папка содержащая скрипты для отправки сообщении
+```shell
+├── README.md
+├── robot-gazebo
+│   ├── building_robot.sdf
+│   └── robot.sdf
+├── robot_tppo  # Сам робот
+│   ├── CMakeLists.txt
+│   ├── config  # Контроллеры
+│   │   └── diff_drive_controllers.yaml
+│   ├── launch  # Запуск робота
+│   │   └── robot.launch.py
+│   ├── package.xml
+│   ├── rviz    # rviz конфигурация для RViZ
+│   │   └── urdf.rviz
+│   └── urdf    # описание робота
+│       └── robot.urdf.xacro
+├── Schemes     # хз для чего это
+│   └── Schemes here.txt
+└── scripts     # Скрипты для проверки работы топиков             
+    └── send_msg_cmd_vel.sh  
+```
