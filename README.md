@@ -28,19 +28,19 @@ ros2 run ros_gz_bridge parameter_bridge
 ├── robot-gazebo
 │   ├── building_robot.sdf
 │   └── robot.sdf
-├── robot_tppo  # Сам робот
+├── robot_tppo                          # Сам робот
 │   ├── CMakeLists.txt
-│   ├── config  # Контроллеры
+│   ├── config                          # Контроллеры
 │   │   └── diff_drive_controllers.yaml
-│   ├── launch  # Запуск робота
+│   ├── launch                          # Запуск робота
 │   │   └── robot.launch.py
 │   ├── package.xml
-│   ├── rviz    # rviz конфигурация для RViZ
+│   ├── rviz                            # rviz конфигурация для RViZ
 │   │   └── urdf.rviz
-│   └── urdf    # описание робота
+│   └── urdf                            # Описание робота
 │       └── robot.urdf.xacro
-├── Schemes     # хз для чего это
+├── Schemes                             # хз для чего это
 │   └── Schemes here.txt
-└── scripts     # Скрипты для проверки работы топиков             
+└── scripts                             # Скрипты для проверки работы топиков             
     └── send_msg_cmd_vel.sh  
 ```
