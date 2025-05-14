@@ -22,7 +22,7 @@ ros2 run ros_gz_bridge parameter_bridge
 ```
 ## Описание робота 
 Описание робота находится в urdf/robot.urdf.xacro
-## Скрипты
+## Директории
 ```shell
 ├── README.md
 ├── robot-gazebo
