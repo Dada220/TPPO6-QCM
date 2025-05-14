@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<material name="blue">
+        <color rgba="0 0 1 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+
+    <!-- Odom link (корень без инерции) -->
+    <link name="odom"/>
+
+
+    <!-- Основная платформа (с инерцией) -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.2 0.23 0.005"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.2 0.23 0.005"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="10"/>
+            <inertia ixx="1e-3" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="base_link_joint" type="fixed">
+        <parent link="odom"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+
+    <!-- Промежуточное звено (left_front_base) -->
+    <link name="left_front_base">
+        <visual>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+
+    <joint name="left_front_base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="left_front_base"/>
+        <!-- Joint находится в позиции оси колеса -->
+        <origin xyz="0.05 0.13 0"/>
+    </joint>
+
+
+    <!-- Переднее левое колесо -->
+    <link name="left_front_wheel">
+        <visual>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1e-3" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="left_front_wheel_joint" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="left_front_base"/>
+        <child link="left_front_wheel"/>
+        <!-- Колесо на нулевой позиции относительно промежуточного звена -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <command_interface name="velocity"/><!-- управляем скорость колеса -->
+        <state_interface name="position"/><!-- состояние: пройденный угол -->
+        <state_interface name="velocity"/><!-- состояние: текущая скорость -->
+    </joint>
+
+
+    <!-- Промежуточное звено (right_front_base) -->
+    <link name="right_front_base">
+        <visual>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+
+    <joint name="right_front_base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="right_front_base"/>
+        <!-- Joint находится в позиции оси колеса -->
+        <origin xyz="0.05 -0.13 0"/>
+    </joint>
+
+
+    <!-- Переднее правое колесо -->
+    <link name="right_front_wheel">
+        <visual>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1e-3" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="right_front_wheel_joint" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="right_front_base"/>
+        <child link="right_front_wheel"/>
+        <!-- Колесо на нулевой позиции относительно промежуточного звена -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <command_interface name="velocity"/><!-- управляем скорость колеса -->
+        <state_interface name="position"/><!-- состояние: пройденный угол -->
+        <state_interface name="velocity"/><!-- состояние: текущая скорость -->
+    </joint>
+
+
+    <!-- Промежуточное звено (left_rear_base) -->
+    <link name="left_rear_base">
+        <visual>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+
+    <joint name="left_rear_base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="left_rear_base"/>
+        <!-- Joint находится в позиции оси колеса -->
+        <origin xyz="-0.05 0.13 0"/>
+    </joint>
+
+
+    <!-- Заднее левое колесо -->
+    <link name="left_rear_wheel">
+        <visual>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1e-3" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="left_rear_wheel_joint" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="left_rear_base"/>
+        <child link="left_rear_wheel"/>
+        <!-- Колесо на нулевой позиции относительно промежуточного звена -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <command_interface name="velocity"/><!-- управляем скорость колеса -->
+        <state_interface name="position"/><!-- состояние: пройденный угол -->
+        <state_interface name="velocity"/><!-- состояние: текущая скорость -->
+    </joint>
+
+
+    <!-- Промежуточное звено (right_rear_base) -->
+    <link name="right_rear_base">
+        <visual>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </visual>
+    </link>
+
+
+    <joint name="right_rear_base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="right_rear_base"/>
+        <!-- Joint находится в позиции оси колеса -->
+        <origin xyz="-0.05 -0.13 0"/>
+    </joint>
+
+
+    <!-- Заднее правое колесо -->
+    <link name="right_rear_wheel">
+        <visual>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.025" radius="0.0325"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1e-3" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="right_rear_wheel_joint" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="right_rear_base"/>
+        <child link="right_rear_wheel"/>
+        <!-- Колесо на нулевой позиции относительно промежуточного звена -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <command_interface name="velocity"/><!-- управляем скорость колеса -->
+        <state_interface name="position"/><!-- состояние: пройденный угол -->
+        <state_interface name="velocity"/><!-- состояние: текущая скорость -->
+    </joint>
+
+
+    <link name="caster_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.015"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1e-4" ixy="0" ixz="0"
+                     iyy="1e-3" iyz="0" izz="1e-3"/>
+        </inertial>
+    </link>
+
+
+    <joint name="caster_wheel_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_wheel"/>
+        <origin xyz="-0.09 0 -0.01"/>
+    </joint>
+</robot>

@@ -7,8 +7,14 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+
 def generate_launch_description():
     pkg_share = get_package_share_directory('robot_tppo')
+
+    #world_name = 'empty.sdf'
+    #world_name = os.path.join(pkg_share,'worlds','green_cube.sdf')
+    world_name = os.path.join(pkg_share,'worlds','colorful_scene.sdf')
+
     xacro_file = os.path.join(pkg_share, 'urdf', 'robot.urdf.xacro')
     rviz_config_file = os.path.join(pkg_share, 'rviz', 'urdf.rviz')
     controller_params_file = os.path.join(pkg_share, 'config', 'diff_drive_controllers.yaml')
@@ -87,8 +93,9 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
         ]),
         launch_arguments={
-            'gz_args': '-r empty.sdf',
-            'use_sim_time': 'true'
+            'gz_args': f'-r {world_name}',
+            'use_sim_time': 'true',
+            'on_exit_shutdown': 'true'
             }.items()
     )
 
@@ -113,6 +120,12 @@ def generate_launch_description():
         arguments=[
             '/cmd_vel@geometry_msgs/msg/TwistStamped@gz.msgs.TwistStamped',
             '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',  # To supress messages that GZ doesn't understand what time it is 
+            #"/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
+            #"/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
+            "/camera/image@sensor_msgs/msg/Image@gz.msgs.Image",
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
+            #"/camera/depth_image@sensor_msgs/msg/Image@gz.msgs.Image",
+            #"/camera/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked",
         ],
         output='screen',
     )
@@ -121,11 +134,11 @@ def generate_launch_description():
     return LaunchDescription([        
         rsp_node,
         #ros2_control_node,
-        joint_state_spawner,
-        diff_drive_spawner,
-        #joint_state_publisher_node,
+       #joint_state_publisher_node,
         rviz_node,
         gz_sim,
         gz_bridge,
         spawn_entity,
+        joint_state_spawner,
+        diff_drive_spawner,
     ])
