@@ -44,3 +44,5 @@ ros2 run ros_gz_bridge parameter_bridge
 └── scripts                             # Скрипты для проверки работы топиков             
     └── send_msg_cmd_vel.sh             # Для отправки сообщении на топик cmd_vel
 ```
+### Документация по gz_ros2_control (смотреть примеры файлов)
+https://github.com/ros-controls/gz_ros2_control/blob/rolling/doc/index.rst
