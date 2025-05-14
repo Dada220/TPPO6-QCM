@@ -12,12 +12,7 @@ ros2 launch robot_tppo robot.launch.py
 - Добавить lidar
 - Добавить камеру
 - Написать robot.py для отправки команд
-## Описание робота 
-Описание робота находится в urdf/robot.urdf.xacro
-## Скрипты
-/scripts - папка содержащая скрипты для отправки сообщении
-
-## GZ-ROS2-Bridge (one command - need to move to launch, but first fix)
+- Добавить топики для передачи в launch (для GZ-ROS2-Bridge):
 ```shell
 ros2 run ros_gz_bridge parameter_bridge
 /lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan
@@ -25,3 +20,7 @@ ros2 run ros_gz_bridge parameter_bridge
 /camera@sensor_msgs/msg/Camera@gz.msgs.camera
 /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock
 ```
+## Описание робота 
+Описание робота находится в urdf/robot.urdf.xacro
+## Скрипты
+/scripts - папка содержащая скрипты для отправки сообщении
