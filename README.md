@@ -12,7 +12,7 @@ ros2 launch robot_tppo robot.launch.py
 - Добавить lidar
 - Добавить камеру
 - Написать robot.py для отправки команд
-- Добавить топики для передачи в launch (для GZ-ROS2-Bridge):
+- Добавить топики launch из команды (для GZ-ROS2-Bridge):
 ```shell
 ros2 run ros_gz_bridge parameter_bridge
 /lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan
