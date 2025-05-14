@@ -29,18 +29,18 @@ ros2 run ros_gz_bridge parameter_bridge
 │   ├── building_robot.sdf
 │   └── robot.sdf
 ├── robot_tppo                          # Сам робот
-│   ├── CMakeLists.txt
+│   ├── CMakeLists.txt                  # Нужен для сборки
 │   ├── config                          # Контроллеры
-│   │   └── diff_drive_controllers.yaml
+│   │   └── diff_drive_controllers.yaml # Описание контроллеров
 │   ├── launch                          # Запуск робота
-│   │   └── robot.launch.py
-│   ├── package.xml
+│   │   └── robot.launch.py             # Файл запуска робота в RViZ и в Gazebo
+│   ├── package.xml                     # Нужен для сборки
 │   ├── rviz                            # rviz конфигурация для RViZ
-│   │   └── urdf.rviz
+│   │   └── urdf.rviz                   # Файл конфигурации, нужен для RViZ
 │   └── urdf                            # Описание робота
-│       └── robot.urdf.xacro
+│       └── robot.urdf.xacro            # xacro описание робота 
 ├── Schemes                             # хз для чего это
 │   └── Schemes here.txt
 └── scripts                             # Скрипты для проверки работы топиков             
-    └── send_msg_cmd_vel.sh  
+    └── send_msg_cmd_vel.sh             # Для отправки сообщении на топик cmd_vel
 ```
