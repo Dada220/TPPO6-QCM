@@ -7,10 +7,15 @@ source install/setup.bash
 ```
 ros2 launch robot_tppo robot.launch.py
 ```
+
+## TODO:
+- Добавить lidar
+- Добавить камеру
+- Написать robot.py для отправки команд
 ## Описание робота 
 Описание робота находится в urdf/robot.urdf.xacro
-
-/scripts - folder containing scripts for testing robot movement
+## Скрипты
+/scripts - папка содержащая скрипты для отправки сообщении
 
 ## Bridge (one command - need to move to launch, but first fix)
 ros2 run ros_gz_bridge parameter_bridge
