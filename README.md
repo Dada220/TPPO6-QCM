@@ -14,10 +14,10 @@ ros2 launch robot_tppo robot.launch.py
 В Gazebo открыть Image Display и выбрать топик /camera/image (три точки в правом верхнем углу)
 
 ## TODO:
-[ ] Добавить lidar
-[x] Добавить камеру 
-[ ] Написать robot.py для отправки команд
-[ ] Добавить топики в launch файл из команды (для GZ-ROS2-Bridge):
+- [ ] Добавить lidar
+- [x] Добавить камеру 
+- [ ] Написать robot.py для отправки команд
+- [ ] Добавить топики в launch файл из команды (для GZ-ROS2-Bridge):
 ```shell
 ros2 run ros_gz_bridge parameter_bridge
 /lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan
