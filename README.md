@@ -12,9 +12,10 @@ ros2 launch robot_tppo robot.launch.py
 Запустить send_msg_cmd_vel.sh в директории scripts
 ### Камера
 В Gazebo открыть Image Display и выбрать топик /camera/image (три точки в правом верхнем углу)
-
+### Лидар
+В Gazebo открыть Visualize Lidar и выбрать топик /scan (возможно надо будет нажать кнопу retry в Gazebo)
 ## TODO:
-- [ ] Добавить lidar
+- [x] Добавить лидар
 - [x] Добавить камеру
 - [ ] Добавить инерциальный датчик
 - [ ] Написать robot.py для отправки команд
