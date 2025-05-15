@@ -47,6 +47,7 @@ ros2 run ros_gz_bridge parameter_bridge
 │   ├── urdf                               # Описание робота 
 │   │   ├── camera.urdf.xacro              # xacro описание камеры 
 │   │   ├── core.urdf.xacro                # xacro описание колёс и платформы робота
+│   │   └── lidar.urdf.xacro               # xacro лидара 
 │   │   └── robot.urdf.xacro               # xacro робота с diff контроллером 
 │   └── worlds                             # папка локации
 │       ├── colorful_scene.sdf             # локация с розовой плоскостю, синим небом и большим зелёным кубом
