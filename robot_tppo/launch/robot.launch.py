@@ -52,8 +52,8 @@ def generate_launch_description():
     joint_state_spawner = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_state_broadcaster'],
-        output='screen',
+        arguments=['joint_state_broadcaster',"--controller-manager-timeout", "120", "--switch-timeout", "100"],
+        output='screen',  
     )
 
     diff_drive_spawner = Node(
@@ -65,8 +65,10 @@ def generate_launch_description():
             controller_params_file,
             '--controller-ros-args',
             '-r /diff_drive_controller/cmd_vel:=/cmd_vel',
+            "--controller-manager-timeout", "120", "--switch-timeout", "100",
         ],
         output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     # (Опционально) узел joint_state_publisher_gui
