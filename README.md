@@ -36,7 +36,7 @@ ros2 run ros_gz_bridge parameter_bridge
 /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock
 ```
 ## Текущие проблемы
-- [] Есть проблема когда один или два контроллера могут не активироваться. Ссылка на одно из обсуждении: https://github.com/ros-controls/gz_ros2_control/issues/421
+- Есть проблема когда один или два контроллера могут не активироваться. Ссылка на одно из обсуждении: https://github.com/ros-controls/gz_ros2_control/issues/421
 ## Описание робота 
 Описание робота находится в urdf/robot.urdf.xacro
 ## Директории
