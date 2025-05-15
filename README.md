@@ -22,8 +22,12 @@ ros2 launch robot_tppo robot.launch.py
 - [x] Добавить лидар
 - [x] Добавить камеру
 - [ ] Добавить инерциальный датчик
+- [ ] Добавить ультразвуковой датчик расстояния
+- [ ] Добавить инфракрасный датчик расстояния
+- [ ] Добавить дальномер
+- [ ] Добавить гироскоп
 - [ ] Написать robot.py для отправки команд
-- [ ] Добавить топики в launch файл из команды (для GZ-ROS2-Bridge):
+- [x] Добавить топики в launch файл из команды (для GZ-ROS2-Bridge):
 ```shell
 ros2 run ros_gz_bridge parameter_bridge
 /lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan
