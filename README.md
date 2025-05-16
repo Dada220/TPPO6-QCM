@@ -46,31 +46,37 @@ ros2 run ros_gz_bridge parameter_bridge
 ## Директории
 ```shell
 ├── README.md                            
-├── robot-gazebo                           # SDF файлы симуляции
+├── robot-gazebo                               # SDF файлы симуляции
 │   ├── building_robot.sdf
 │   └── robot.sdf
-├── robot_tppo                             # Сам робот
-│   ├── CMakeLists.txt                     # Нужен для сборки
-│   ├── config                             # Контроллеры
-│   │   └── diff_drive_controllers.yaml    # Описание контроллеров
-│   ├── launch                             # Запуск робота
-│   │   └── robot.launch.py                # Файл запуска робота в RViZ и в Gazebo
-│   ├── package.xml                        # Нужен для сборки
-│   ├── rviz                               # rviz конфигурация для RViZ
-│   │   └── urdf.rviz                      # Файл конфигурации, нужен для RViZ
-│   ├── urdf                               # Описание робота 
-│   │   ├── camera.urdf.xacro              # xacro описание камеры 
-│   │   ├── core.urdf.xacro                # xacro описание колёс и платформы робота
-│   │   └── lidar.urdf.xacro               # xacro лидара 
-│   │   └── robot.urdf.xacro               # xacro робота с diff контроллером 
-│   └── worlds                             # папка локации
-│       ├── colorful_scene.sdf             # локация с розовой плоскостю, синим небом и большим зелёным кубом
-│       ├── green_cube.sdf                 # локация с маленьким зелёным кубом (из туториала)
-│       └── home.sdf                       # нерабочая локация
-├── Schemes                                # хз зачем это
+├── robot_tppo                                 # Сам робот
+│   ├── CMakeLists.txt                         # Нужен для сборки
+│   ├── config                                 # Контроллеры
+│   │   └── diff_drive_controllers.yaml        # Описание контроллеров
+│   ├── launch                                 # Запуск робота
+│   │   └── robot.launch.py                    # Файл запуска робота в RViZ и в Gazebo
+│   ├── package.xml                            # Нужен для сборки
+│   ├── rviz                                   # rviz конфигурация для RViZ
+│   │   └── urdf.rviz                          # Файл конфигурации, нужен для RViZ
+│   ├── scripts
+│   │   ├── commands.py                        # файл команд
+│   │   ├── __pycache__
+│   │   │   └── robot.cpython-312.pyc
+│   │   └── robot.py                           # класс робота для передвижения
+│   ├── urdf                                   # Описание робота 
+│   │   ├── camera.urdf.xacro                  # xacro описание камеры 
+│   │   ├── core.urdf.xacro                    # xacro описание колёс и платформы робота
+│   │   ├── inertial_measuring_unit.urdf.xacro # xacro описание инерциального датчика
+│   │   └── lidar.urdf.xacro                   # xacro лидара 
+│   │   └── robot.urdf.xacro                   # xacro робота с diff контроллером 
+│   └── worlds                                 # папка локации
+│       ├── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
+│       ├── green_cube.sdf                     # локация с маленьким зелёным кубом (из туториала)
+│       └── home.sdf                           # нерабочая локация
+├── Schemes                                    # хз зачем это
 │   └── Schemes here.txt
-└── scripts                                # Скрипты для проверки работы топиков             
-    └── send_msg_cmd_vel.sh                # Для отправки сообщении на топик cmd_vel
+└── scripts                                    # Скрипты для проверки работы топиков             
+    └── send_msg_cmd_vel.sh                    # Для отправки сообщении на топик cmd_vel
 ```
 ### Документация по gz_ros2_control (смотреть примеры файлов)
 https://github.com/ros-controls/gz_ros2_control/blob/jazzy/doc/index.rst
