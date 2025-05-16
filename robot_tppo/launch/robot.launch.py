@@ -122,13 +122,13 @@ def generate_launch_description():
         arguments=[
             '/cmd_vel@geometry_msgs/msg/TwistStamped@gz.msgs.TwistStamped',
             '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',  # To supress messages that GZ doesn't understand what time it is 
-            #"/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
-            #"/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             "/camera/image@sensor_msgs/msg/Image@gz.msgs.Image",
             "/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
             "/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            #"/camera/depth_image@sensor_msgs/msg/Image@gz.msgs.Image",
-            #"/camera/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked",
+
+            "/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
+            "/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
+            "imu@sensor_msgs/msg/Imu@gz.msgs.IMU"
         ],
         output='screen',
     )
