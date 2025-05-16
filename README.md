@@ -77,3 +77,5 @@ https://github.com/ros-controls/gz_ros2_control/blob/jazzy/doc/index.rst
 https://github.com/MOGI-ROS/Week-5-6-Gazebo-sensors
 ### Тут вроде как лидар есть
 https://github.com/adoodevv/diff_drive_robot
+### Документация датчиков Gazebo
+https://github.com/gazebosim/gz-sensors
