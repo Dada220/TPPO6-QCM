@@ -16,7 +16,7 @@ ros2 launch robot_tppo robot.launch.py
 В RViZ добавить Camera и в топик добавить /camera/image 
 ### Лидар
 В Gazebo открыть Visualize Lidar и выбрать топик /scan (возможно надо будет нажать кнопу retry в Gazebo)
-### Лидар
+### Инерциальный датчик (IMU)
 В rqt открыть Topic и выбрать топик /imu. Запустить движение робота и смотреть изменения датчиков(раскрывать все вкладки)
 
 В RViZ добавить LazerScan и в топик добавить /scan 
