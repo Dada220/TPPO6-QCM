@@ -58,11 +58,9 @@ ros2 run ros_gz_bridge parameter_bridge
 │   ├── package.xml                            # Нужен для сборки
 │   ├── rviz                                   # rviz конфигурация для RViZ
 │   │   └── urdf.rviz                          # Файл конфигурации, нужен для RViZ
-│   ├── scripts
-│   │   ├── commands.py                        # файл команд
-│   │   ├── __pycache__
-│   │   │   └── robot.cpython-312.pyc
-│   │   └── robot.py                           # класс робота для передвижения
+│   ├── scripts                                # Файлы взаимодействия с роботом
+│   │   ├── commands.py                        # Файл команд
+│   │   └── robot.py                           # Класс робота для передвижения
 │   ├── urdf                                   # Описание робота 
 │   │   ├── camera.urdf.xacro                  # xacro описание камеры 
 │   │   ├── core.urdf.xacro                    # xacro описание колёс и платформы робота
