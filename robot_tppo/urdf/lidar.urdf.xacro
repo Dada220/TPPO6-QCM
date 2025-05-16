@@ -25,12 +25,12 @@
       </geometry>
     </collision>
 
-    <visual name='scan_link_visual'>
+    <!--visual name='scan_link_visual'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!--mesh filename = "lidar.dae"/-->
+        <mesh filename = "lidar.dae"/>
       </geometry>
-    </visual>
+    </visual-->
 </link>
 
   <gazebo reference="scan_link">
