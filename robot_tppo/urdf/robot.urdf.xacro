@@ -32,12 +32,9 @@
         </joint>
     </ros2_control>
 
-
     <gazebo>
         <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
             <parameters>$(find robot_tppo)/config/diff_drive_controllers.yaml</parameters>
         </plugin>
     </gazebo>
-
-
 </robot>
