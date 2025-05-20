@@ -22,13 +22,13 @@ ros2 launch robot_tppo robot.launch.py
 ## TODO:
 - [x] Добавить лидар
 - [x] Добавить камеру
+    - [x] Добавлена идентификация кодов Aruco  
 - [x] Добавить инерциальный датчик
 - [ ] Добавить ультразвуковой датчик расстояния
 - [ ] Добавить инфракрасный датчик расстояния
 - [ ] Добавить дальномер
 - [ ] Добавить гироскоп
 - [x] Написать robot.py для отправки команд напрямую
-    - [ ] Доработать чтобы движение могло осуществляется на основе данных с сенсоров
 - [x] Добавить топики в launch файл из команды (для GZ-ROS2-Bridge):
 ```shell
 ros2 run ros_gz_bridge parameter_bridge
@@ -46,34 +46,42 @@ ros2 run ros_gz_bridge parameter_bridge
 ```shell
 ├── README.md                            
 ├── robot-gazebo                               # SDF файлы симуляции
-│   ├── building_robot.sdf
-│   └── robot.sdf
+│   ├── building_robot.sdf
+│   └── robot.sdf
 ├── robot_tppo                                 # Сам робот
-│   ├── CMakeLists.txt                         # Нужен для сборки
-│   ├── config                                 # Контроллеры
-│   │   └── diff_drive_controllers.yaml        # Описание контроллеров
-│   ├── launch                                 # Запуск робота
-│   │   └── robot.launch.py                    # Файл запуска робота в RViZ и в Gazebo
-│   ├── package.xml                            # Нужен для сборки
-│   ├── rviz                                   # rviz конфигурация для RViZ
-│   │   └── urdf.rviz                          # Файл конфигурации, нужен для RViZ
-│   ├── scripts                                # Файлы взаимодействия с роботом
-│   │   ├── commands.py                        # Файл команд
-│   │   └── robot.py                           # Класс робота для передвижения
-│   ├── urdf                                   # Описание робота 
-│   │   ├── camera.urdf.xacro                  # xacro описание камеры 
-│   │   ├── core.urdf.xacro                    # xacro описание колёс и платформы робота
-│   │   ├── inertial_measuring_unit.urdf.xacro # xacro описание инерциального датчика
-│   │   └── lidar.urdf.xacro                   # xacro лидара 
-│   │   └── robot.urdf.xacro                   # xacro робота с diff контроллером 
-│   └── worlds                                 # папка локации
-│       ├── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
-│       ├── green_cube.sdf                     # локация с маленьким зелёным кубом (из туториала)
-│       └── home.sdf                           # нерабочая локация
+│   ├── CMakeLists.txt                         # Нужен для сборки
+│   ├── config                                 # Контроллеры
+│   │   └── diff_drive_controllers.yaml        # Описание контроллеров
+│   ├── launch                                 # Запуск робота
+│   │   └── robot.launch.py                    # Файл запуска робота в RViZ и в Gazebo
+│   ├── models                                 # Папка моделей
+│   │   └── arucotag                           # Модель Aruco маркера
+│   │       ├── arucotag_0.png                 # Aruco маркер 4x4 c id: 0
+│   │       ├── arucotag.png                   # Aruco маркер 4x4 c id: 44
+│   │       ├── model.config                   # Конфиг модели
+│   │       └── model.sdf                      # Сама модель маркера
+│   ├── package.xml                            # Нужен для сборки
+│   ├── rviz                                   # rviz конфигурация для RViZ
+│   │   └── urdf.rviz                          # Файл конфигурации, нужен для RViZ
+│   ├── scripts                                # Файлы взаимодействия с роботом
+│   │   ├── commands.py                        # Файл команд
+│   │   └── robot.py                           # Класс робота для передвижения
+│   ├── urdf                                   # Описание робота 
+│   │   ├── camera.urdf.xacro                  # xacro описание камеры 
+│   │   ├── core.urdf.xacro                    # xacro описание колёс и платформы робота
+│   │   ├── inertial_measuring_unit.urdf.xacro # xacro описание инерциального датчика
+│   │   ├── lidar.urdf.xacro                   # xacro лидара 
+│   │   └── robot.urdf.xacro                   # xacro робота с diff контроллером 
+│   └── worlds                                 # папка локации
+│       ├── aruco.sdf                          # локация с Aruco маркером
+│       ├── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
+│       ├── green_cube.sdf                     # локация с маленьким зелёным кубом
+│       └── home.sdf                           # нерабочая локация
 ├── Schemes                                    # хз зачем это
-│   └── Schemes here.txt
+│   └── Schemes here.txt
 └── scripts                                    # Скрипты для проверки работы топиков             
-    └── send_msg_cmd_vel.sh                    # Для отправки сообщении на топик cmd_vel
+    ├── send_msg_cmd_vel.sh                    # Для отправки сообщении на топик cmd_vel
+    └── text.sh                                # Для проверки движения робота назад
 ```
 ### Документация по gz_ros2_control (смотреть примеры файлов)
 https://github.com/ros-controls/gz_ros2_control/blob/jazzy/doc/index.rst
