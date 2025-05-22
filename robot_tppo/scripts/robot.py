@@ -11,19 +11,20 @@ from sensor_msgs.msg import Image,LaserScan,Imu
 
 class MessageBroker(Node):
     def __init__(self):
-        super().__init__('img_tester')
+        super().__init__('msg_broker')
         self._init_sub_img()
         self._init_pub_vel()
 
     def _init_pub_vel(self):
-        """Initialization of movement publisher"""
+        """Инициализация издателя движения"""
         self.pub_vel = self.create_publisher(
                 TwistStamped,
                 '/cmd_vel',
                 10
         )
+
     def _init_sub_img(self):
-        """Initialization of camera subscriber"""
+        """Инициализация подписчика камеры"""
         self.sub_img = self.create_subscription(
             Image,
             '/camera/image',
@@ -33,41 +34,42 @@ class MessageBroker(Node):
         self.bridge = CvBridge()
 
     def close_publishers(self):
-        """Closing all initialized publishers before closing MessageBroker"""
+        """Закрытие всех инициализированных издателей перед закрытием брокера сообщении"""
         self.destroy_publisher(self.pub_vel)
 
     def close_subscribers(self):
-        """Closing all initialized subscribers before closing MessageBroker"""
+        """Закрытие всех инициализированных подписчиков перед закрытием брокера сообщении"""
         self.destroy_subscription(self.sub_img)
 
     def close(self):
-        """Properly closing MessageBroker"""
+        """Закрытие брокера сообщении"""
         self.close_publishers()     
         self.close_subscribers()    
         self.destroy_node()         
 
     def create_move_msg(self,direction):
         """
-        Creates move TwistStamped message with set direction
-        Args:
-            direction(str): direction in which robot is moving
-        Returns:
-            msg(TwistStamped): movement message
+        Создаёт сообщение вида TwistStamped с заранне заданым направлением
+        Аргументы:
+            direction(str): направление, в котором движется робот
+        Возвращает:
+            msg(TwsitStamped): сообщение движения
         """
         msg = TwistStamped()
-        # Because message is TwistStamped it consists of Header and Twist message
+        # Так как сообщение TwistStamped состоит из Header и Twist сообщении
+        # Cоздаём Header сообщение
         msg.header = Header()
         msg.header.frame_id = "base_link" # Example frame ID
 
         msg.twist = Twist()
-        # Fixed robot directions
+        # Фиксированные направления движения робота
         directions = {
             'forward':  ((1.0,0.0,0.0),(0.0,0.0,0.0)),
             'backward': ((-1.0,0.0,0.0),(0.0,0.0,0.0)),
             'left':     ((0.0,0.0,0.0),(0.0,0.0,1.0)),
             'right':    ((0.0,0.0,0.0),(0.0,0.0,-1.0)),
         }
-        # Creating Twist part of the TwistStamped message
+        # Создаём Twist сообщение
         try:
             vec_lin,vec_ang = directions[direction]
             msg.twist.linear.x = vec_lin[0]
@@ -77,50 +79,55 @@ class MessageBroker(Node):
             msg.twist.angular.y = vec_ang[1]
             msg.twist.angular.z = vec_ang[2]
         except:
-            print('Unknown direction')
+            self.get_logger().error(f"Получено неизвестное направление для робота. Производим остановку движения")
             msg.twist.linear.x = 0
             msg.twist.linear.y = 0
             msg.twist.linear.z = 0
             msg.twist.angular.x = 0
             msg.twist.angular.y = 0
+            msg.twist.angular.z = 0
         return msg
     
     def publish_move_msg(self,direction):
         """
-        Publishes move message with set direction
-        Args:
-            direction(str): direction in which robot is moving
+        Публикация сообщение движения с заданым направлением движенеия
+        Аргументы:
+            direction(str): направление в котором двигается робот
         """
+        self.get_logger().info(f'Производится движение робота в направлении {direction}')
         msg = self.create_move_msg(direction)
         self.move_msg = msg
-        time.sleep(1)   # Adding delay for move command to finish its execution
         self.pub_vel.publish(msg)
+        time.sleep(1)   # Добавляем задержку для выполнения следующей команды движения 
 
     def camera_image_callback(self,msg):
         """
-        Detects images in camera
-        Args:
-            msg: message from /camera/image topic 
+        Идентификация меток в камере
+        Аргументы: 
+            msg: сообщение из топика /camera/image
         """
-        # Converting image to black and white
         try:
+            # Конвертируем из сообщения в чёрно-белое изображение для более точной идентификации меток
             image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='mono8')
         except Exception as e:
             self.get_logger().error(f"Error converting image: {e}")
             return
 
-        # WARNING: In Ubuntu cv2 version is 4.6.0 
-        # Same code but in 4.11.0 version:
+        # ПОМЕЧАНИЕ: В Ubuntu cv2 имеет версию 4.6.0 
+        # Тот же код но для версии 4.11.0
         #   aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_1000)
         #   parameters = cv2.aruco.DetectorParameters()
         #   detector = cv2.aruco.ArucoDetector(aruco_dict, parameters)
         #   corners, ids, rejected = detector.detectMarkers(image)
 
-        # Marker detection on image
+        # Идентификация меток
         aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_1000)
         parameters = cv2.aruco.DetectorParameters_create()
         corners, ids, rejected = cv2.aruco.detectMarkers(image, aruco_dict, parameters=parameters)
-        print("Detected markers:", ids)
+        if ids != None:            
+            self.get_logger().info(f'Идентифицированные метки: {ids[0]}')
+        else:
+            self.get_logger().info(f'Идентифицированные метки: Не найдено')
 
 class Robot:
     def __init__(self):
@@ -128,32 +135,34 @@ class Robot:
         self._init_msg_broker()
 
     def _init_msg_broker(self):
-        """Initialization of message broker"""
+        """Инициализация брокера сообщении"""
         self.msg_broker = MessageBroker()
-        # Launching broker in separate thread to be able to use it 
+        # Запускаем брокера сообщении в отдельном потоке, чтобы была возможность с ним взаимодействовать в коде
         executor = MultiThreadedExecutor(num_threads=4)
         executor.add_node(self.msg_broker)
         self.spin_thread = threading.Thread(target=executor.spin, daemon=True)
         self.spin_thread.start()
-
         while not rclpy.ok():
             time.sleep(0.5)
 
+
     def destroy(self):
-        """Robot desctruction"""
+        """Уничтожение робота"""
         self.msg_broker.close() 
         rclpy.shutdown()
-        self.spin_thread.join() # proper thread cleanup before the program exits. 
+        self.spin_thread.join() # Для правильной очистки потока 
 
     def move_forward(self): 
-        """Publishes a 'forward' movement command to the message broker."""
+        """Двигает робота вперёд"""
         self.msg_broker.publish_move_msg('forward')
+
     def move_backward(self): 
-        """Publishes a 'backward' movement command to the message broker."""
+        """Двигает робота назад"""
         self.msg_broker.publish_move_msg('backward')
     def turn_right(self):    
-        """Publishes a 'right' movement command to the message broker."""
+        """Поворачивает робота направо"""
         self.msg_broker.publish_move_msg('right')
+
     def turn_left(self):     
-        """Publishes a 'left' movement command to the message broker."""
+        """Поворачивает робота налево"""
         self.msg_broker.publish_move_msg('left')

@@ -27,6 +27,6 @@ endif()
 ament_package()
 
 install(
-  DIRECTORY launch urdf config rviz worlds models
+  DIRECTORY launch urdf config rviz worlds models scripts
   DESTINATION share/${PROJECT_NAME}
 )
