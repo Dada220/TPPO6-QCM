@@ -1,7 +1,6 @@
 from robot import Robot
 import time
 
-print('WE RE HE RE')
 time.sleep(4)
 robot = Robot()
 time.sleep(10)
