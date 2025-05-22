@@ -76,9 +76,7 @@ ros2 run ros_gz_bridge parameter_bridge
 │   │   └── robot.urdf.xacro                   # xacro робота с diff контроллером 
 │   └── worlds                                 # папка локации
 │       ├── aruco.sdf                          # локация с Aruco маркером
-│       ├── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
-│       ├── green_cube.sdf                     # локация с маленьким зелёным кубом
-│       └── home.sdf                           # нерабочая локация
+│       └── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
 ├── Schemes                                    # хз зачем это
 │   └── Schemes here.txt
 └── scripts                                    # Скрипты для проверки работы топиков             
