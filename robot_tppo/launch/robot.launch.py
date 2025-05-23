@@ -188,7 +188,7 @@ def generate_launch_description():
 
     executables_list = [        
         rsp_node,
-        # rviz_node,
+        rviz_node,
         gz_sim,
         gz_bridge,
         spawn_entity,
@@ -203,5 +203,10 @@ def generate_launch_description():
                output='screen'
             )
         )
+    executables_list.append(
+       ExecuteProcess(
+           cmd=['python3', os.path.join(pkg_share, 'scripts','robot_control_gui.py'),]
+       )
+    )
 
     return LaunchDescription(executables_list)
