@@ -27,5 +27,4 @@ diff_drive_controller:
     linear.x.max_velocity: 2.0   # м/с
     angular.z.has_velocity_limits: true
     angular.z.max_velocity: 2.0  # рад/с
-      # Примечание: В ROS2 Jazzy контроллер ожидает TwistStamped, см. шаг 5
-    # Описание широковещательного контроллера состояний суставов
+    # Примечание: В ROS2 Jazzy контроллер ожидает TwistStamped
