@@ -205,7 +205,7 @@ def generate_launch_description():
         )
     executables_list.append(
        ExecuteProcess(
-           cmd=['python3', os.path.join(pkg_share, 'scripts','robot_control_gui.py'),]
+           cmd=['python3', os.path.join(pkg_share, 'scripts','app.py'),]
        )
     )
 
