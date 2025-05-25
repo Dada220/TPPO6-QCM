@@ -76,7 +76,7 @@ class MessageBroker(Node):
             msg.twist.angular.y = vec_ang[1]
             msg.twist.angular.z = vec_ang[2]
         except:
-            self.get_logger().error(f"Получено неизвестное направление для робота. Производим остановку движения")
+            #self.get_logger().error(f"Получено неизвестное направление для робота. Производим остановку движения")
             msg.twist.linear.x = 0
             msg.twist.linear.y = 0
             msg.twist.linear.z = 0
@@ -91,11 +91,10 @@ class MessageBroker(Node):
         Аргументы:
             direction(str): направление в котором двигается робот
         """
-        self.get_logger().info(f'Производится движение робота в направлении {direction}')
+        #self.get_logger().info(f'Производится движение робота в направлении {direction}')
         msg = self.create_move_msg(direction)
         self.move_msg = msg
         self.pub_vel.publish(msg)
-        #time.sleep(1)   # Добавляем задержку для выполнения следующей команды движения 
 
     def camera_image_callback(self,msg):
         """
@@ -125,4 +124,3 @@ class MessageBroker(Node):
             self.get_logger().info(f'Идентифицированные метки: {ids[0]}')
         else:
             pass
-            #self.get_logger().info(f'Идентифицированные метки: Не найдено')

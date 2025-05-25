@@ -1,27 +1,26 @@
 import os
-import subprocess
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.substitutions import Command
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
-from launch.actions import IncludeLaunchDescription
-from launch.actions import ExecuteProcess
+from launch.actions import IncludeLaunchDescription,ExecuteProcess,RegisterEventHandler, Shutdown
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.event_handlers import OnProcessExit
 
 import tkinter as tk
 import tkinter as ttk
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror, showinfo
 
+pkg_share = get_package_share_directory('robot_tppo')
 # Пространства на которых производилось тестирование:
 # - aruco.sdf,
 # - colorful_scene.sdf
-world_file = 'empty.sdf'
-commands_file = None
-
-pkg_share = get_package_share_directory('robot_tppo')
+# - default.sdf
+DEFAULT_WORLD_FILE = os.path.join(pkg_share,'worlds','default.sdf')
+world_file = DEFAULT_WORLD_FILE
 
 class App(tk.Tk):
     def __init__(self):
@@ -37,48 +36,27 @@ class App(tk.Tk):
         self.world_file_entry         = tk.Entry( self, state='readonly')
         self.world_file_pick_button   = tk.Button(self, text='Загрузить пространство', command = self.update_world_file_entry)
 
-        self.commands_title           = tk.Label( self, text="Команды (py)") 
-        self.commands_file_entry      = tk.Entry( self, state='readonly')
-        self.command_file_pick_button = tk.Button(self, text='Загрузить файл команд', command = self.update_commands_file_entry)
-
         self.start_simulation_button = tk.Button(self, text='Запуск', command=self.start_simulation)
 
     def _pack_all(self):
         self.world_title.grid(row=1,column=1)
         self.world_file_entry.grid(row=2,column=1)
         self.world_file_pick_button.grid(row=2,column=2)
-        self.commands_title.grid(row=3,column=1)
-        self.commands_file_entry.grid(row=4,column=1)           
-        self.command_file_pick_button.grid(row=4,column=2)      
         self.start_simulation_button.grid(row=5,column=1)
 
     def close_app(self):
+        """ Закрытие программы"""
         self.quit()
         self.destroy()
-        exit()          # otherwise it'd make program run after mainloop
+        exit()          # Иначе программа продолжит работать после закрытия окна приложения 
 
     def start_simulation(self):
+        """Запуск симуляции"""
         self.quit()     
         self.destroy()
 
-    def update_commands_file_entry(self):
-        filepath = askopenfilename(
-            initialdir=os.path.join(pkg_share, 'scripts'),
-            title='Выберите файл команд',
-            filetypes = [
-               ("Файл команд", "*.py")
-            ]
-        )
-
-        global commands_file
-        commands_file = filepath
-
-        self.commands_file_entry.config(state='normal')
-        self.commands_file_entry.delete(0, tk.END)
-        self.commands_file_entry.insert(0, filepath)
-        self.commands_file_entry.config(state='readonly')
-
     def update_world_file_entry(self):
+        """Ввод файла пространства"""
         filepath = askopenfilename(
             initialdir=os.path.join(pkg_share, 'worlds'),
             title='Выберите файл пространства',
@@ -86,6 +64,9 @@ class App(tk.Tk):
                ("Файл пространства", "*.sdf")
             ]
         )
+
+        if filepath == '' or filepath == (): # Если пользователь закроет окно выбора файла, не выбрав файл 
+            return
         global world_file
         world_file = filepath
 
@@ -115,7 +96,7 @@ def generate_launch_description():
     joint_state_spawner = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_state_broadcaster',"--controller-manager-timeout", "120", "--switch-timeout", "100"], # adding timeout in case controller fails to load in start of the program
+        arguments=['joint_state_broadcaster',"--controller-manager-timeout", "120", "--switch-timeout", "100"], 
         output='screen',  
     )
 
@@ -134,7 +115,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # --- RViz ---
+    # RViz 
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -143,7 +124,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # --- Запуск GZ Sim ---
+    # Запуск GZ Sim 
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
@@ -155,7 +136,7 @@ def generate_launch_description():
             }.items()
     )
 
-    # --- Robot spawn in GZ Sim ---
+    # Спавн робота в GZ Sim 
     spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
@@ -175,20 +156,20 @@ def generate_launch_description():
         executable='parameter_bridge',
         arguments=[
             '/cmd_vel@geometry_msgs/msg/TwistStamped@gz.msgs.TwistStamped',
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',  # To supress messages that GZ doesn't understand what time it is 
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',  
             "/camera/image@sensor_msgs/msg/Image@gz.msgs.Image",
             "/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
             "/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
             "/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
             "/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
-            "imu@sensor_msgs/msg/Imu@gz.msgs.IMU"
+            "imu@sensor_msgs/msg/Imu@gz.msgs.IMU",
         ],
         output='screen',
     )
-
+    
     executables_list = [        
         rsp_node,
-        rviz_node,
+        #rviz_node,
         gz_sim,
         gz_bridge,
         spawn_entity,
@@ -196,17 +177,20 @@ def generate_launch_description():
         diff_drive_spawner,
     ]
 
-    if commands_file != None:
-        executables_list.append(
-            ExecuteProcess(
-               cmd=['python3', commands_file],
-               output='screen'
-            )
-        )
-    executables_list.append(
-       ExecuteProcess(
-           cmd=['python3', os.path.join(pkg_share, 'scripts','app.py'),]
-       )
+    launch_gui = ExecuteProcess(
+            cmd=['python3', 
+                 os.path.join(pkg_share, 'scripts','app.py'),
+            ]
     )
+    shutdown_on_app_exit = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=launch_gui,
+            on_exit=[
+               Shutdown()
+            ]
+        )
+    )
+
+    executables_list.extend([launch_gui,shutdown_on_app_exit])
 
     return LaunchDescription(executables_list)

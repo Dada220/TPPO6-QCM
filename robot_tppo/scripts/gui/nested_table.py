@@ -9,18 +9,18 @@ class NestedTable(ttk.Treeview):
         self.heading("#0", text="Field")
         self.heading("value", text="Value")
         ttk.Style().configure('Treeview', rowheight=30)
-        self.item_ids = {}  # To store all item IDs for quick access
-        self.path_map = {}  # To store the path to each item
+        self.item_ids = {}  # Для хранения идентификаторов для быстрого доступа
+        self.path_map = {}  # Для хранения пути к каждой клетке 
 
     def build_tree(self, data_dict, parent=""):
-        """Builds/rebuilds the tree from dictionary"""
-        self.delete(*self.get_children())  # Clear existing items
+        """Построение таблицы из словаря"""
+        self.delete(*self.get_children())  
         self.item_ids = {}
         self.path_map = {}
         self._add_items(data_dict, parent)
 
     def _add_items(self, data_dict, parent="", current_path=None):
-        """Recursively adds items to treeview"""
+        """Рекурсивное добавление значении в таблицу"""
         if current_path is None:
             current_path = []
             
@@ -39,9 +39,9 @@ class NestedTable(ttk.Treeview):
                 self.path_map[item_id] = path
 
     def update_values(self, new_data):
-        """Updates treeview with new data using the path map"""
+        """Обновление значении"""
         for item_id in self.item_ids:
-            if not self.get_children(item_id):  # Only update leaf nodes
+            if not self.get_children(item_id):  
                 path = self.path_map[item_id]
                 try:
                     current = new_data
