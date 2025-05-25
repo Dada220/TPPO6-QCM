@@ -6,27 +6,32 @@ class ComponentDataCollector(Node):
         super().__init__('component_data_collector')
         self._init_subscribers()
         self.data_lidar = {
-            #"ranges": ''
+            "ranges":{f"{i}":'None' for i in range(30)}
         }
         self.data_imu = {
-            "orientation":          {"x":'',"y":'',"z":'',"w":'',},
-            "angular_velocity":     {"x":'',"y":'',"z":'',},
-            "linear_acceleration":  {"x":'',"y":'',"z":'',}
+            "orientation":          {"x":'None',"y":'None',"z":'None',"w":'None',},
+            "angular_velocity":     {"x":'None',"y":'None',"z":'None',},
+            "linear_acceleration":  {"x":'None',"y":'None',"z":'None',}
         }
-        self.data_joint_states = {}
+        joints = [
+                "left_front_wheel_joint",
+                "left_rear_wheel_joint",
+                "right_front_wheel_joint",
+                "right_rear_wheel_joint"
+        ]
+        self.data_joint_states = {j:{'position':'None','velocity':'None','effort':'None'} for j in joints}
 
     def _init_subscribers(self):
+        """Инициализация подписчиков"""
         self.sub_joint_states = self.create_subscription(JointState,'/joint_states',self.joint_states_callback,10)
         self.sub_imu          = self.create_subscription(Imu,'/imu',self.imu_callback,10)
         self.sub_lidar        = self.create_subscription(LaserScan,'/scan',self.lidar_callback,10)        
-        self.sub_camera       = None
 
     def close_subscribers(self):
         """Закрытие всех инициализированных подписчиков перед закрытием брокера сообщении"""
         self.destroy_subscription(self.sub_joint_states) 
         self.destroy_subscription(self.sub_imu)          
         self.destroy_subscription(self.sub_lidar)        
-        #self.destroy_subscription(self.sub_camera)       
 
     def close(self):
         """Закрытие брокера сообщении"""
@@ -34,14 +39,13 @@ class ComponentDataCollector(Node):
         self.destroy_node()         
 
     def get_data(self):
+        """Получение текущих данных компонентов"""
         return (self.data_lidar,self.data_imu,self.data_joint_states)
 
     def lidar_callback(self,msg):
         """Callback при получении сообщения с лидара"""
         for i,data in enumerate(msg.ranges):
-            self.data_lidar[f"{i}"] = data
-        #self.data_lidar = msg.ranges 
-        #print(list(msg.ranges))
+            self.data_lidar['ranges'][f"{i}"] = data
 
     def imu_callback(self,msg):
         """Callback при получении сообщения с инерциального датчика"""

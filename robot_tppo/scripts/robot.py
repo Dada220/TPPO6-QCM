@@ -22,7 +22,7 @@ class Robot:
         self.spin_thread = threading.Thread(target=executor.spin, daemon=True)
         self.spin_thread.start()
         while not rclpy.ok():
-            time.sleep(0.5)
+            time.sleep(0.1)
 
     def destroy(self):
         """Уничтожение робота"""
