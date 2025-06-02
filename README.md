@@ -40,9 +40,6 @@ ros2 run ros_gz_bridge parameter_bridge
 /camera@sensor_msgs/msg/Camera@gz.msgs.camera
 /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock
 ```
-## Текущие проблемы
-- Есть проблема когда один или два контроллера могут не активироваться. Ссылка на одно из обсуждении: https://github.com/ros-controls/gz_ros2_control/issues/421
-    - Вроде как исправил в launch файле выставить timeout больше чем 5 секунд
 ## Описание робота 
 Описание робота находится в urdf/robot.urdf.xacro
 ## Директории
@@ -84,19 +81,19 @@ ros2 run ros_gz_bridge parameter_bridge
 │   └── worlds                                 # папка локации
 │       ├── aruco.sdf                          # локация с Aruco маркером
 │       └── colorful_scene.sdf                 # локация с розовой плоскостю, синим небом и большим зелёным кубом
-├── Schemes                                    # хз зачем это
+├── Schemes                                    # Без понятия зачем это
 │   └── Schemes here.txt
 └── scripts                                    # Скрипты для проверки работы топиков             
     ├── send_msg_cmd_vel.sh                    # Для отправки сообщении на топик cmd_vel
     └── text.sh                                # Для проверки движения робота назад
 ```
 
-
-### Документация по gz_ros2_control (смотреть примеры файлов)
+## Источники 
+### Документация по gz_ros2_control
 https://github.com/ros-controls/gz_ros2_control/blob/jazzy/doc/index.rst
-### Документация для камеры и лидара (тут какой-то туториал, не работает почему-то)
+### Документация для камеры и лидара 
 https://github.com/MOGI-ROS/Week-5-6-Gazebo-sensors
-### Тут вроде как лидар есть
+### 
 https://github.com/adoodevv/diff_drive_robot
 ### Документация датчиков Gazebo
 https://github.com/gazebosim/gz-sensors
