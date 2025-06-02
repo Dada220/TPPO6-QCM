@@ -68,7 +68,7 @@ class AppComponentData(tk.Tk):
     def execute_commands(self):
         """Исполнение файла команд"""
         if self.commands_file != None or self.commands_file != '':
-            subprocess.run(
+            subprocess.Popen(
                 ["python3", self.commands_file],
                 capture_output=True,
                 text=True
