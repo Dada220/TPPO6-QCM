@@ -93,7 +93,5 @@ ros2 run ros_gz_bridge parameter_bridge
 https://github.com/ros-controls/gz_ros2_control/blob/jazzy/doc/index.rst
 ### Документация для камеры и лидара 
 https://github.com/MOGI-ROS/Week-5-6-Gazebo-sensors
-### 
-https://github.com/adoodevv/diff_drive_robot
 ### Документация датчиков Gazebo
 https://github.com/gazebosim/gz-sensors
